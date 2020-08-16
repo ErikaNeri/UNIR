@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang = "es">
+<head>
+    <meta charset = "UTF-8"/>
+    <h1 style="color:white; text-align: center "> Registro Éxitoso </h1>
+	<title>Registro Éxitoso</title>
+    <link type="text/css" rel="stylesheet" href="css/z.css" media="screen"/>
+</head>
+<body>
+<font color="White" face="Verdana" size=4>
+    <?php 
+        /* Guardamos en variables los post que se traen desde index_Neri.html */
+        $fecha = $_POST['Fecha'];
+        $hora = $_POST['Hora'];
+        $sexo = $_POST["Sexo"];
+        $nombre = $_POST['Nombre'];
+        $acompañantes = $_POST['Acomp'];
+        $correo1 = $_POST['Correo1'];
+        $correo2 = $_POST['Correo2'];
+
+        print ("Fecha: ".$fecha." Hora: " .$hora."<br>");
+        
+        /* Mostraremos un titulo de acuerdo al sexo del visitante 
+            usando una estructura de control selectiva (switch)    */
+        switch ($sexo){ 
+            case "hombre":
+                echo "<br> Estimado: " .ucfirst($nombre). ".";
+            break;
+            case "mujer":
+                echo "<br> Estimada: " .ucfirst($nombre). ".";
+            break;
+            default:
+                echo $nombre;
+        }
+
+        /* Crearemos un mensaje de bienvenida para cada àrea ò departamente al que visite
+            usando una estructura de control selectiva (if, elseif, else)  */
+        if ($_POST['Depto'] == "otro"){
+            echo "\nGracias por su registro. Esperamos que su estancia aquí sea de su agrado." ."<br />";
+        }elseif ($_POST['Depto'] == "seleccion"){
+            echo "\nGracias por su registro. Esperamos que su estancia aquí sea de su agrado." ."<br />";
+        }else{
+            echo "\nGracias por su registro. Esperamos que su estancia en " .$_POST['Depto']. " sea de su agrado." ."<br />";
+        } 
+
+        /* Si existe algun acompañante le crearemos un còdigo para cada uno; si no, le crearemos un còdigo para el visitante 
+            usando una estructura de control selectiva (if-else),
+            estructura de control iterativa (while),
+            una funciòn y un array */
+        if ($acompañantes>=1){
+            $visitantes = 1;
+            $visitantes += $acompañantes;
+            $visitantesCod = 1;
+            while ($visitantesCod<=$visitantes):
+                echo "El código para el visitante " .$visitantesCod. " es: " .generarCodigo(). "<br>";
+                $visitantesCod++;
+            endwhile;
+        }else{
+            echo "Su código de visitante es: " .generarCodigo(). "<br>";
+        }
+        
+        /* Funciones para generar el código de visitante*/
+        function generarCodigo () {
+            $myArrayCod = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+            $codigo = '';
+            for ($i = 1; $i <= 6; $i++) {
+                $codigo .= "\n".$myArrayCod[numeroAleatorio(0, 35)];
+            }
+            return $codigo;
+        }
+        function numeroAleatorio ($ninicial, $nfinal) {
+            $numero = rand($ninicial, $nfinal);
+            return $numero;
+        }
+        /* Fin de funciones para generar el código de visitante*/
+        echo "<br />";
+        /* Verificaremos que los input de correo sean iguales 
+            usando una estructura de control selectiva (if-else),
+            una funciòn de cadenas de caracteres y
+            usando comillas dobles en una cadena de caracteres. */
+        if (strcmp($correo1,$correo2) != 0){
+            echo 'Alerta: encontramos una "extraña" inconsistencia en el registro de su correo';
+        }
+    ?>
+</font>   
+</body>
+</html>
