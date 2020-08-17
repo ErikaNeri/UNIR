@@ -19,18 +19,28 @@
         $correo2 = $_POST['Correo2'];
 
         print ("Fecha: ".$fecha." Hora: " .$hora."<br>");
-        
-        /* Mostraremos un titulo de acuerdo al sexo del visitante 
+
+        foreach($datosSelect as $dato){
+            /* Mostraremos un titulo de acuerdo al sexo del visitante 
             usando una estructura de control selectiva (switch)    */
-        switch ($sexo){ 
+            switch ($sexo){ 
             case "hombre":
-                echo "<br> Estimado: " .ucfirst($nombre). ".";
+                echo "<br> Estimado: " .$dato["Nombre"]." los datos mostrados acontinuación son 
+                los registrados, si hay algun error favor de presionar el boton para editar."."<br>";
             break;
             case "mujer":
-                echo "<br> Estimada: " .ucfirst($nombre). ".";
+                echo "<br> Estimada: " .$dato["Nombre"]."los datos mostrados acontinuación son 
+                los registrados, si hay algun error favor de presionar el boton para editar."."<br>";
             break;
             default:
-                echo $nombre;
+                echo $dato["Nombre"];
+            }
+
+            /* Mostramos mas datos de la consulta Select*/
+            echo "Empresa: ".$dato["Empresa"]."<br>".
+                    "Email: ".$dato["Email"]."<br>".
+                    "Asunto: ".$dato["Asunto"]."<br><br>";  
+
         }
 
         /* Crearemos un mensaje de bienvenida para cada àrea ò departamente al que visite
@@ -82,6 +92,17 @@
             echo 'Alerta: encontramos una "extraña" inconsistencia en el registro de su correo';
         }
     ?>
-</font>   
+</font>
+    <!-- Boton para editar registro -->
+    <form action="validacion.php" method="post">
+        <input type="hidden" name="Editar" value = "ok">  <!--Esta etiqueta sirve para saber si yse va a editar el registro -->
+        <br>  <br>
+        <label style="color:white;font-size:14pt; font-family:Verdana;">==></label>   <!-- etiqueta de enviar formulario -->
+        <input type="submit" id ="Edit" value="Editar mis datos" style="width:200px; height:30px; background-color:#9EDFF6;color:black;font-size:12pt; font-family:Verdana;text-align:center">
+        <label style="color:white;font-size:14pt; font-family:Verdana;"><==</label>   <!-- etiqueta de enviar formulario -->
+    </form>        
+    <br>  <br>
+    <!-- Boton para borrar registro -->
+    <a href="validacion.php"><input type="button" value="Borrar mi registro"></a>
 </body>
 </html>
